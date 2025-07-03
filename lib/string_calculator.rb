@@ -11,13 +11,19 @@ class StringCalculator
   end
 
   def check_delimter(string)
-    delimiter = /[,\n]/
     if string.start_with?('//')
-      delimiter_line, numbers = string.split("\n", 2)
-      delimiter = delimiter_line[2] || ','
+      delimiter_part, numbers = string.split("\n", 2)
       numbers ||= ''
+      delimiter = if delimiter_part.start_with?('//[')
+                    Regexp.new(Regexp.escape(delimiter_part[3...-1]))
+                  else
+                    Regexp.new(Regexp.escape(delimiter_part[2..] || ','))
+                  end
+      numbers.split(delimiter).map(&:to_i)
+
+    else
+      string.split(/[,\n]/).map(&:to_i)
     end
-    string.split(delimiter).map(&:to_i)
   end
 
   def check_negative(nums)
