@@ -4,13 +4,13 @@ class StringCalculator
   def add(string)
     return 0 if string.empty?
 
-    nums = check_delimter(string)
+    nums = check_delimiter(string)
     check_negative(nums)
 
     nums.sum
   end
 
-  def check_delimter(string)
+  def check_delimiter(string)
     if string.start_with?('//')
       delimiter_part, numbers = string.split("\n", 2)
       numbers ||= ''
